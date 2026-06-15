@@ -1,0 +1,9 @@
+/* Webfonts — Newsreader (display/headings) + Inter (body/labels).
+   NOTE: No brand font binaries were provided, so these load from Google Fonts.
+   Replace with self-hosted @font-face + bundled files for production/offline use.
+
+   Newsreader replaces Fraunces as the display/heading serif: a clean editorial
+   serif with straight, undecorated terminals (the lowercase f has a plain
+   terminal — no teardrop, no wonk). Loaded normal + italic, weights 400/500/600/700.
+   Newsreader is optically variable (opsz), driven by font-optical-sizing: auto. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600;1,6..72,700&family=Inter:wght@400;500;600;700&display=swap');

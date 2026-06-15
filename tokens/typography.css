@@ -1,0 +1,57 @@
+/* ============================================================
+   TYPOGRAPHY — Newsreader (display/headings) + Inter (body/labels)
+   Golden-ratio scale (φ ≈ 1.618), base Body 17:
+   Display 72 / Heading 44.5 / Subhead 27.5 / Body 17 / Caption 10.5
+   (each step = the one below × φ).  Eyebrow 12 uppercase, wide tracking.
+   ============================================================ */
+:root {
+  /* golden ratio */
+  --phi: 1.618; /* @kind other */
+
+  /* families */
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* type scale (px) — multiplied by φ */
+  --fs-display: 72px;     /* 44.5 × φ */
+  --fs-heading: 44.5px;   /* 27.5 × φ */
+  --fs-subhead: 27.5px;   /* 17 × φ   */
+  --fs-body:    17px;     /* base     */
+  --fs-small:   13px;     /* practical step between body and caption */
+  --fs-caption: 10.5px;   /* 17 ÷ φ   */
+  --fs-eyebrow: 12px;
+
+  /* line heights */
+  --lh-display: 1.04; /* @kind other */
+  --lh-heading: 1.12; /* @kind other */
+  --lh-subhead: 1.28; /* @kind other */
+  --lh-body:    1.6; /* @kind other */
+  --lh-tight:   1.2; /* @kind other */
+
+  /* weights */
+  --fw-regular: 400; /* @kind other */
+  --fw-medium:  500; /* @kind other */
+  --fw-semibold:600; /* @kind other */
+  --fw-bold:    700; /* @kind other */
+
+  /* tracking */
+  /* display/headings sit at 0 tracking for a clean editorial measure. */
+  --tracking-display: 0; /* @kind other */
+  --tracking-heading: 0; /* @kind other */
+  --tracking-normal:  0; /* @kind other */
+  --tracking-eyebrow: 0.18em; /* @kind other */
+
+  /* Newsreader needs no SOFT/WONK axes — its terminals are already clean.
+     Optical sizing is handled by font-optical-sizing: auto, so role variation
+     settings are 'normal'. */
+  --fv-display: normal; /* @kind other */
+  --fv-heading: normal; /* @kind other */
+  --fv-subhead: normal; /* @kind other */
+
+  /* semantic roles */
+  /* display weight 500 reads more refined at large sizes; headings 600. */
+  --text-display: var(--fw-medium)   var(--fs-display)/var(--lh-display) var(--font-display);
+  --text-heading: var(--fw-semibold) var(--fs-heading)/var(--lh-heading) var(--font-display);
+  --text-subhead: var(--fw-medium)   var(--fs-subhead)/var(--lh-subhead) var(--font-display);
+  --text-base:    var(--fw-regular)  var(--fs-body)/var(--lh-body)    var(--font-body);
+}

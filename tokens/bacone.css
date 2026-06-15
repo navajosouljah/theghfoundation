@@ -1,0 +1,29 @@
+/* ============================================================
+   BACONE COLLECTION — scoped storytelling palette
+   USE ONLY inside .theme-bacone (collection storytelling).
+   NEVER on Foundation pages.
+   ============================================================ */
+.theme-bacone {
+  /* raw palette */
+  --clay:  #C2704F;
+  --sage:  #97A782;
+  --ochre: #DAB877;
+  --sky:   #88A3AE;
+  --ground:#F0E7D6;   /* background */
+  --umber: #5E4334;   /* ink */
+
+  /* semantic aliases mapped onto Foundation contract,
+     so components render correctly inside this scope */
+  --bg-page:       var(--ground);
+  --bg-surface:    #FBF6EC;
+  --bg-surface-2:  #EDE0CA;
+  --text-strong:   var(--umber);
+  --text-body:     #6B5040;
+  --text-muted:    #8A7560;
+  --text-brand:    var(--clay);
+  --border-subtle: rgba(94,67,52,0.16);
+  --accent:        var(--clay);
+  --accent-hover:  #A85C3F;
+  --on-accent:     var(--ground);
+  --focus-ring:    var(--clay);
+}

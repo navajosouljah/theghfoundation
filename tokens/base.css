@@ -1,0 +1,64 @@
+/* ============================================================
+   BASE — light element defaults that lean on the tokens.
+   Scoped to .ghf so it never bleeds into a host app globally.
+   ============================================================ */
+.ghf {
+  background: var(--bg-page);
+  color: var(--text-body);
+  font: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ghf h1, .ghf h2, .ghf h3, .ghf h4 {
+  color: var(--text-strong);
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-heading);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--fv-heading);
+  font-feature-settings: "calt" 1, "liga" 1;
+}
+
+.ghf-display {
+  font: var(--text-display);
+  letter-spacing: var(--tracking-display);
+  color: var(--text-strong);
+  text-wrap: balance;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--fv-display);
+  font-feature-settings: "calt" 1, "liga" 1;
+}
+.ghf-heading {
+  font: var(--text-heading);
+  color: var(--text-strong);
+  text-wrap: balance;
+  font-optical-sizing: auto;
+  font-variation-settings: var(--fv-heading);
+  font-feature-settings: "calt" 1, "liga" 1;
+}
+.ghf-subhead {
+  font: var(--text-subhead);
+  color: var(--text-strong);
+  font-optical-sizing: auto;
+  font-variation-settings: var(--fv-subhead);
+  font-feature-settings: "calt" 1, "liga" 1;
+}
+.ghf-body {
+  font: var(--text-base);
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.ghf-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-brand);
+}
+
+.ghf a { color: var(--text-brand); text-decoration: none; }
+.ghf a:hover { text-decoration: underline; }
+
+*::selection { background: var(--olive); color: var(--cream); }

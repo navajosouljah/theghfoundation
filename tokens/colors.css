@@ -1,0 +1,63 @@
+/* ============================================================
+   COLORS — The Green House Foundation
+   Foundation palette: forest base, olive brand, cream light,
+   ember accent (buttons/CTA only, ~3% of any layout).
+   ============================================================ */
+:root {
+  /* --- Foundation core palette --- */
+  --forest: #20241A;   /* dark background base */
+  --olive:  #858549;   /* brand color */
+  --cream:  #F4F5E7;   /* light background + text on dark */
+  --slate:  #646463;   /* muted text */
+  --ember:  #C2703D;   /* accent — buttons & CTA only */
+  --surface:#2C3122;   /* raised panels on forest */
+
+  /* --- Tints / shades derived for states & lines --- */
+  --forest-900: #171A12;
+  --forest-700: #20241A;
+  --forest-600: #272C1F;
+  --surface-2:  #353B29;            /* hover raise on surface */
+  --olive-600:  #6F6F3D;            /* olive pressed/darker */
+  --olive-300:  #A6A672;           /* olive light/disabled text */
+  --ember-600:  #A85C2F;           /* ember hover/press */
+  --cream-dim:  #DCDDCB;           /* secondary cream text */
+
+  /* hairlines & overlays */
+  --line-on-forest: rgba(244,245,231,0.12);
+  --line-on-cream:  rgba(32,36,26,0.12);
+  --overlay-forest: rgba(23,26,18,0.72);
+
+  /* ============================================================
+     SEMANTIC ALIASES — Foundation (default) theme on FOREST
+     ============================================================ */
+  --bg-page:        var(--forest);
+  --bg-surface:     var(--surface);
+  --bg-surface-2:   var(--surface-2);
+  --text-strong:    var(--cream);
+  --text-body:      var(--cream-dim);
+  --text-muted:     var(--slate);
+  --text-brand:     var(--olive);
+  --border-subtle:  var(--line-on-forest);
+  --accent:         var(--ember);
+  --accent-hover:   var(--ember-600);
+  --on-accent:      var(--cream);
+  --focus-ring:     var(--olive);
+}
+
+/* ============================================================
+   CREAM THEME — light Foundation surfaces (apply to a scope)
+   ============================================================ */
+.theme-cream {
+  --bg-page:       var(--cream);
+  --bg-surface:    #FFFFFF;
+  --bg-surface-2:  #ECEDD9;
+  --text-strong:   var(--forest);
+  --text-body:     #2C3122;
+  --text-muted:    var(--slate);
+  --text-brand:    var(--olive-600);
+  --border-subtle: var(--line-on-cream);
+  --accent:        var(--ember);
+  --accent-hover:  var(--ember-600);
+  --on-accent:     var(--cream);
+  --focus-ring:    var(--olive);
+}
