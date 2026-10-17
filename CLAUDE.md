@@ -5,9 +5,9 @@ preserves culturally significant art, develops artists into sustainable careers,
 and builds cultural spaces across the Mountain West. Home of The Green House
 Gallery in historic downtown Huntsville, Utah, and the Bacone collection.
 
-This is plain hand-written HTML + CSS. **There is no build step, no framework, no
-npm, no bundler.** You preview a page by opening the `.html` file in a browser.
-Do not introduce a build tool, framework, or dependency without asking me first.
+Plain hand-written HTML + CSS. **There is no build step, no framework, no npm,
+no bundler** — you preview a page by opening its `.html` file in a browser. Do
+not add a build tool, framework, or dependency without asking me first.
 
 ---
 
@@ -15,109 +15,97 @@ Do not introduce a build tool, framework, or dependency without asking me first.
 
 | File | What it is |
 |------|-----------|
-| `index.html` | The Foundation homepage. The big one (~700 lines): mission, Bacone collection, BEACON, the corridor, endowment, get involved. |
+| `index.html` | Foundation homepage. The big one (~700 lines): mission, Bacone collection, BEACON, the corridor, endowment, get involved. |
 | `about.html` | About page — the valley, the three communities, why the Foundation exists. |
-| `grants.html` | Grants we are actively seeking: the $5M 2026 goal, fundable priorities, grant sources. |
-| `hero-loop.html` | **Standalone ambient hero animation** (CSS god-rays / breathing gradient). Self-contained art piece with its own palette. Not part of the shared page system — leave its inline `:root` alone. |
-| `styles.css` | The design-system entry point. `@import` lines only — links the token files below. |
-| `tokens/*.css` | The design tokens. See the token map below. |
-| `assets/logos/` | Brand logo PNGs (also base64-inlined into the nav/footer of each page). |
+| `grants.html` | Grants being sought: the $5M 2026 goal, fundable priorities, grant sources. |
+| `hero-loop.html` | **Standalone ambient hero animation** (CSS god-rays / breathing gradient). Self-contained art piece with its own palette — leave its inline `:root` alone. |
+| `styles.css` + `tokens/*.css` | A design-token layer (palette, type scale, spacing, theme scopes). **The pages don't actually consume it** — see below. |
+| `assets/logos/` | Brand logo PNGs (also base64-inlined into each page's nav/footer). |
 
-There is **no** `CLAUDE.md` history, no tests, and no CI. If you add tooling, document it here.
+No tests, no CI. If you add tooling, document it here.
 
 ---
 
-## The design system
+## How the pages are actually built
 
-`styles.css` is the single entry point (`<link rel="stylesheet" href="styles.css">`)
-and pulls in the token layers in this order:
+Each page is **self-contained**. It links `styles.css`, but then defines its own
+inline `<style>` block with its own palette vars (`--ink`, `--paper`, `--clay`,
+`--ember`, …) and its own component classes (`.wrap`, `.btn`, `.eyebrow`,
+`header.nav`, `.ft`). The three pages carry an **identical inline `:root`**
+palette (copied verbatim), so the real styling lives in each file, not in the
+token layer. `tokens/*.css` is a parallel system the pages do not use.
 
-```
-tokens/fonts.css       → Google Fonts import (Newsreader + Inter)
-tokens/colors.css      → palette + semantic aliases + .theme-cream / theme scopes
-tokens/typography.css  → golden-ratio type scale, families, role tokens
-tokens/spacing.css     → 8px spacing scale, radii, shadows, layout, motion
-tokens/bacone.css      → the Bacone collection palette (SCOPED — see below)
-tokens/base.css        → light element defaults on the .ghf scope
-```
+When you edit a page, work **within the inline vars already defined at the top of
+that file**. Don't wire the pages up to the token layer unless we decide to do
+that on purpose.
 
-### Palette — the rules matter
+Two rules keep edits clean:
 
-The Foundation palette is **forest base, olive brand, cream light, ember accent**.
+1. **Don't introduce a new color.** Use a value that already exists — an inline
+   var on that page, or one of the palette values below.
+2. **Don't hardcode a hex/px that already has a name.** If `--ember-deep` exists,
+   write `var(--ember-deep)`, not `#A85C2F`.
+
+---
+
+## Palette — as the site actually uses it
+
+A warm, earthy system on true-black ink and white/warm-paper grounds. These vars
+are defined identically at the top of all three pages:
 
 | Token | Value | Use |
 |-------|-------|-----|
-| `--forest` | `#20241A` | dark background base |
-| `--olive` | `#858549` | **brand color** — links, brand marks, primary buttons |
-| `--cream` | `#F4F5E7` | light background + text on dark |
-| `--slate` | `#646463` | muted text |
-| `--ember` | `#C2703D` | **accent — buttons & CTA ONLY, ~3% of any layout** |
-| `--surface` | `#2C3122` | raised panels on forest |
+| `--ink` / `--ink-2` | `#0C0C0A` / `#45493B` | primary text; secondary text + dark section grounds |
+| `--paper` / `--paper-2` | `#FFFFFF` / `#F6F6EF` | page ground; warm off-white panels |
+| `--olive` / `--olive-deep` | `#858549` / `#6F6F3D` | **brand** — links, brand marks, primary buttons |
+| `--clay` | `#C2704F` | **accent** — eyebrows, nav underline, focus rings, link hovers |
+| `--sage` | `#A3A36B` | section/step numbers, labels, badges |
+| `--ochre` | `#DAB877` | display emphasis (italic highlights) |
+| `--ember` / `--ember-deep` | `#C2703D` / `#A85C2F` | **money & emphasis** — the $5M figure, endowment pulse, required-field marks, and primary buttons |
+| `--cream` | `#F4F5E7` | light text on dark grounds |
+| `--ground` | `#F0E7D6` | warm storytelling ground |
+| `--hair` | `rgba(26,30,20,0.12)` | hairline borders |
 
-Prefer the **semantic aliases** over raw palette in components: `--bg-page`,
-`--bg-surface`, `--text-strong`, `--text-body`, `--text-muted`, `--text-brand`,
-`--border-subtle`, `--accent`, `--accent-hover`, `--on-accent`, `--focus-ring`.
-They re-map correctly when you switch themes.
+**clay / sage / ochre / ember are the site's real accent voice** and appear on
+every page — that is intentional; keep them consistent across the three pages.
+(`tokens/bacone.css` scopes a similar-looking palette to `.theme-bacone` for
+storytelling blocks; that token file is separate and unrelated to the inline page
+palettes above.)
 
-**Themes** are scopes you add to a container:
-- Default (no class): Foundation dark theme on forest.
-- `.theme-cream`: light Foundation surfaces.
-- `.theme-bacone`: the Bacone collection's storytelling palette (clay / sage /
-  ochre / sky / ground / umber). **USE ONLY inside `.theme-bacone`. NEVER on
-  Foundation pages** — it exists so shared components render correctly inside a
-  Bacone storytelling block, nothing more.
-
-### Type & spacing
-- **Display / headings:** Newsreader (serif), optically variable. **Body / labels:** Inter.
-- Golden-ratio scale (φ≈1.618): Display 72 / Heading 44.5 / Subhead 27.5 / Body 17 / Caption 10.5. Eyebrow 12px, uppercase, `0.18em` tracking.
-- Spacing is an **8px rhythm** (`--space-1`…`--space-10`). Radii are gently architectural, never pill-soft on Foundation surfaces (`--radius-pill` is for chips/toggles only). Motion is calm — no bounce.
+## Type & spacing
+- **Display / headings:** Newsreader (serif). **Body / labels:** Inter. Both are
+  loaded per page (see conventions) with Georgia / system fallbacks inline.
+- Roughly golden-ratio type scale; eyebrows 12px, uppercase, ~`0.18em` tracking.
+- 8px spacing rhythm. Radii are architectural, not pill-soft (pills are for
+  chips/toggles only). Motion is calm — no bounce.
 
 ---
 
-## The thing you have to know before editing a page
-
-**The pages currently do NOT consume the token classes.** Every page links
-`styles.css` but then declares its own big inline `<style>` block with a *parallel*
-palette (`--ink`, `--paper`, `--clay`, `--olive`, `--ember`, …) and its own
-component classes (`.wrap`, `.btn`, `.display`, `.eyebrow`, `header.nav`, `.ft`).
-So there are effectively two systems living side by side.
-
-When you touch a page, follow these rules in order:
-
-1. **Never introduce a third palette.** Use a value that already exists — a token
-   from `tokens/`, or the inline var already defined at the top of that page.
-2. **Never hardcode a hex/px that already has a name.** If `--olive` exists, write
-   `var(--olive)`, not `#858549`.
-3. **Prefer the token layer.** When adding new CSS, reach for the semantic tokens
-   (`var(--bg-surface)`, `var(--text-strong)`) rather than re-deriving colors inline.
-4. **Keep `--ember` to buttons and CTAs only** (~3% of the layout). It is the one
-   loud color. Do not use it for body text, borders, or backgrounds.
-
-### Shared components are duplicated per page — edit them together
+## Shared components are duplicated per page — edit them together
 The **nav** (`header.nav`, sticky, brand + logo + `.nav-links` + a `.btn` CTA), the
-**footer** (`.ft` with Explore / Visit & Contact columns + legal line), the
-**buttons** (`.btn`, `.btn-olive`, `.btn-cream`, `.btn-cream-ghost`, `.btn-sm`), and
-the `.wrap` container are copy-pasted into `index.html`, `about.html`, and
+**footer** (`.ft`, Explore / Visit & Contact columns + legal line), the **buttons**
+(`.btn`, `.btn-olive`, `.btn-cream`, `.btn-cream-ghost`, `.btn-sm`), and the
+`.wrap` container are copy-pasted into `index.html`, `about.html`, and
 `grants.html`. **If you change one, change all three,** or they drift. The nav's
-current link `active` state is set per page.
+`active` link state is set per page.
 
-### Conventions to preserve
-- **`@dsCard` comment** on line 1 of each page (`group`, `viewport`, `name`,
-  `subtitle`) — it's design-gallery metadata. Keep it, and update `name`/`subtitle`
-  when you add a page.
-- Fonts are loaded **twice on purpose**: once via `styles.css`'s `@import`, and
-  again as a `<link>` in each page's `<head>` (with `preconnect`) so the page renders
-  fast even before the stylesheet parses. Keep the `<head>` link.
-- Logos are **base64-inlined** into the nav and footer so a page renders even if
-  `assets/` doesn't load. When you add a page, copy the inlined logo markup.
-- The scroll-`reveal` animation script sits at the bottom of `<body>`. Copy it into
-  new pages so `.reveal` elements fade in.
+## Conventions to preserve
+- **`@dsCard` comment on line 1** of each page (`group`, `viewport`, `name`,
+  `subtitle`) — design-gallery metadata. Keep it; update `name`/`subtitle` when
+  you add a page.
+- **Fonts load twice on purpose:** once via `styles.css`'s `@import`, and again as
+  a `<link>` in each page's `<head>` (with `preconnect`) so the page renders fast
+  before the stylesheet parses. Keep the `<head>` link.
+- **Logos are base64-inlined** into the nav and footer so a page renders even if
+  `assets/` doesn't load. Copy the inlined markup when you add a page.
+- **The scroll-`reveal` script** sits at the bottom of `<body>`; copy it into new
+  pages so `.reveal` elements fade in.
 
-### Contact / brand facts (keep consistent across pages)
+## Contact / brand facts (keep consistent across pages)
 The Green House Gallery · Historic Downtown Huntsville, Utah ·
 `curator@theghgallery.com` · `385-438-2783` · © 2026 The Green House Foundation,
-a Utah nonprofit corporation. Indigenous cultural content is human-authored and
-human-reviewed — keep that line in the footer.
+a Utah nonprofit corporation. Keep the footer line noting Indigenous cultural
+content is human-authored and human-reviewed.
 
 ---
 
@@ -125,14 +113,12 @@ human-reviewed — keep that line in the footer.
 
 Plain, grounded, editorial. Short declarative sentences. "We keep art that matters
 from being lost." No marketing fluff, no exclamation points, no startup-speak.
-Quiet, architectural, rooted — the same register as the token-file comments.
+Quiet, architectural, rooted.
 
 ---
 
 ## Do NOT
-- **Do not** hardcode a color/size that already has a token or inline var — reference it.
-- **Do not** use `--ember` for anything but buttons/CTAs.
-- **Do not** use the Bacone palette (`clay`/`sage`/`ochre`/`sky`/`ground`/`umber`) outside `.theme-bacone`.
+- **Do not** introduce a new color, or hardcode a hex/px that already has an inline var — reference it.
 - **Do not** edit the nav or footer on one page without applying the same change to the other two.
 - **Do not** remove or blank the `@dsCard` comment on line 1 of a page.
 - **Do not** touch `hero-loop.html`'s standalone `:root` — it's an isolated art piece.
